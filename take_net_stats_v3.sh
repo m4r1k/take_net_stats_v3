@@ -42,9 +42,10 @@ do
 	fi
 done
 # Pull VIF Parents from Contrail using hardcoded vif0/
-for (( i=0 ; i<"${#_VIFLIST[@]}" ; i++ ))
+_NB_VIF="${#_VIFLIST[@]}"
+for (( i=0 ; i<${_NB_VIF} ; i++ ))
 do
-	_TAPParent=$(vif --list|grep "Parent:vif0/${_VIFLIST[$i]}"|wc -l)
+	_TAPParents=$(vif --list|grep -E "Parent:vif0/${_VIFLIST[$i]}$"|wc -l)
 	if [[ "${_TAPParents}" != "0" ]]; then
 		for _PARENT in $(vif --list|grep "Parent:vif0/${_VIFLIST[$i]}"|awk '{print $1}'|sed -e "s|vif0/||g")
 		do
