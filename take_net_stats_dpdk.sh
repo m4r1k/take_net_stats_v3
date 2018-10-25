@@ -17,12 +17,8 @@ declare -A _CONTRAILCOUNTSCORE
 
 _WAITSECONDS=300
 
-if [[ "$1" == "-l" ]]; then
-	_LOG=$2'/'$3
-else
-	_LOG="/tmp/_net_stats"
-fi
-
+# Define log file
+_LOG="/tmp/_net_stats"
 rm -f ${_LOG}
 
 # Pull vRouter Cores in BIN format
@@ -112,7 +108,6 @@ done
 
 _END=$(expr $(date +%s%N) / 1000)
 usleep $(bc <<< "(${_WAITSECONDS} * 1000 * 1000) - (${_END} - ${_START})")
-#usleep $(bc <<< "(${_WAITSECONDS} * 1000 * 1000) - (${_END} - ${_START})")
 
 if [[ "${_WAITSECONDS}" == "0" ]]; then
 	_WAITSECONDS=1
@@ -138,6 +133,7 @@ do
 
 	_VIFCOUNT=$((_VIFCOUNT+1))
 done
+
 # Take VIF and VIF Parents counters per CORE after Wait Time
 _VIFCOUNT=0
 for (( i=0 ; i<"${#_VIFLIST[@]}" ; i++ ))
@@ -161,7 +157,7 @@ do
 	_VIFCOUNT=$((_VIFCOUNT+1))
 done
 
-# Finish all threads to process the data
+# Finish all threads before processing the data
 wait
 
 echo -e "########## Contrail vRouter VIF STATS over ${_WAITSECONDS} seconds ############" >> ${_LOG} 2>&1
@@ -220,7 +216,6 @@ do
 	else
 		_TXPERR=$(       bc <<< "scale=2; ${_CONTRAILCOUNTS[$i,1,11]}-${_CONTRAILCOUNTS[$i,0,11]}")
 	fi
-
 
 	if [[ ${_CONTRAILCOUNTS[$i,1,9]} == "" ]] && [[ ${_CONTRAILCOUNTS[$i,0,9]} == "" ]]
 	then
@@ -370,7 +365,6 @@ do
 	echo >> ${_LOG} 2>&1
 done
 
-
 echo >> ${_LOG} 2>&1
 echo -e "\n########## RX syscalls ############" >> ${_LOG} 2>&1
 printf "%18s" \
@@ -515,5 +509,7 @@ do
 	done
 	echo >> ${_LOG} 2>&1
 done
+
+cat ${_LOG}
 
 exit 0
