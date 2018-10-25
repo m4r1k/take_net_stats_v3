@@ -18,7 +18,11 @@ declare -A _CONTRAILCOUNTSCORE
 _WAITSECONDS=300
 
 # Define log file
-_LOG="/tmp/_net_stats"
+if [[ "$1" == "-l" ]]; then
+	_LOG=$2'/'$3
+else
+	_LOG="/tmp/_net_stats"
+fi
 rm -f ${_LOG}
 
 # Pull vRouter Cores in BIN format
