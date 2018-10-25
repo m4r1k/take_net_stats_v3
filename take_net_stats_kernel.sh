@@ -50,7 +50,7 @@ do
 		for _PARENT in $(vif --list|grep "Parent:vif0/${_VIFLIST[$i]}"|awk '{print $1}'|sed -e "s|vif0/||g")
 		do
 			_VIFLIST[${_VIFCOUNT}]=${_PARENT}
-			_VIFNAME[${_VIFCOUNT}]=$(echo vif0/${_VIFLIST[$i]}\'s Parent)
+			_VIFNAME[${_VIFCOUNT}]=$(echo vif0/${_VIFLIST[$i]})
 			_VIFCOUNT=$((_VIFCOUNT+1))
 		done
 	fi
