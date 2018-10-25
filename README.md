@@ -1,1 +1,7 @@
-# Take Networking Stats in an Linux KVM Environment using Juniper Contrail vRouter for any running VNF
+# Contrail VRouter Statistics
+
+## Take Network Statistics for Kernel
+Generate Linux, VRouter, and KVM network statistics
+
+## Take Network Statistics for DPDK
+Generate VRouter-DPDK network statistics
