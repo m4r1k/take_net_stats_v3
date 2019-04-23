@@ -26,7 +26,7 @@ fi
 rm -f ${_LOG}
 
 # Pull vRouter Cores in BIN format
-_MASK=$(cat /etc/contrail/supervisord_vrouter_files/contrail-vrouter-dpdk.ini | grep -v "^#"| awk -F "x| " '/taskset/{print $3}')
+_MASK=$(cat /etc/contrail/supervisord_vrouter_files/contrail-vrouter-dpdk.ini | grep -v "^#"| awk -F "x| " '/taskset/{print $3}' | tr '[:lower:]' '[:upper:]')
 
 # Convert BIN to DEC vRouter cores
 _NB_CORES=$(echo $(echo "obase=2; ibase=16; ${_MASK}" | bc ) | sed 's/./&\n/g' | awk '{s+=$1} END {printf "%.0f\n", s}')
